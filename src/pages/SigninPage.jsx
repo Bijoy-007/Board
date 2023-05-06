@@ -12,13 +12,13 @@ const iconStyles = {
 
 const SignInPage = () => {
   return (
-    <div class="flex flex-row h-screen">
-      <div class="basis-4/10 bg-black flex">
+    <div className="flex flex-row h-screen">
+      <div className="basis-4/10 bg-black flex">
         <div className="fonts-montserrat font-bold text-white text-7xl m-auto">
           Board.
         </div>
       </div>
-      <div class="basis-6/10 bg-white-100 flex">
+      <div className="basis-6/10 bg-white-100 flex">
         <div className="m-auto">
           {/* Heading */}
           <h1 className="fonts-montserrat font-bold text-4xl">Sign In</h1>

@@ -10,12 +10,19 @@ module.exports = {
       colors: {
         "white-100": "#F5F5F5",
         "neutral-150": "#DDDDDD",
+        "light-grey": "#858585",
+        "light-pink": "#E9A0A0",
+        "light-green": "#9BDD7C",
+        "fade-green": "#98d89e",
+        "fade-red": "#ee8484",
+        "fade-yellow": "#f6dc7d",
       },
       fontFamily: {
         montserrat: ["Shantell Sans", "cursive"],
       },
       spacing: {
         7: "1.875rem",
+        50: "10rem",
         76: "11.25rem",
         112: "28rem",
       },
@@ -26,5 +33,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

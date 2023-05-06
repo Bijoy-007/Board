@@ -1,14 +1,19 @@
+import { useState } from "react";
 import {
   BanknotesIcon,
   TagIcon,
   HandThumbUpIcon,
   UsersIcon,
   BellIcon,
+  ArrowDownIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline";
 
 import StartCard from "../components/data/StatCard";
 import AppLayout from "../layouts/AppLayout";
 import Avatar from "../Assets/images/user.jpg";
+import LineChartCard from "../components/data/LineChartCard";
+import PieChartCard from "../components/data/PieChartCard";
 
 const infos = [
   {
@@ -37,25 +42,97 @@ const infos = [
   },
 ];
 
+const data = {
+  labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+  datasets: [
+    {
+      label: "Guest",
+      data: [10, 20, 42, 9],
+      borderColor: "#9BDD7C",
+      backgroundColor: "#9BDD7C",
+    },
+    {
+      label: "User",
+      data: [9, 40, 16, 11],
+      borderColor: "#E9A0A0",
+      backgroundColor: "#E9A0A0",
+    },
+  ],
+};
+
+const colors = ["fade-yellow", "fade-red", "fade-green"];
+
+const productsDetails = [
+  {
+    label: "Basic Tees",
+    percentage: "55%",
+  },
+  {
+    label: "Custom Short Pants",
+    percentage: "30%",
+  },
+  {
+    label: "Super Hoodies",
+    percentage: "15%",
+  },
+];
+
+const productsData = {
+  labels: ["Basic Tees", "Custom Short Pants", "Super Hoodies"],
+  datasets: [
+    {
+      data: [12, 7, 3],
+      backgroundColor: [
+        "rgba(152, 216, 158, 1)",
+        " rgba(238, 132, 132, 1)",
+        "rgba(246, 220, 125, 1)",
+      ],
+      borderColor: [
+        "rgba(152, 216, 158, 1)",
+        "rgba(238, 132, 132, 1)",
+        "rgba(246, 220, 125, 1)",
+      ],
+    },
+  ],
+};
+
+const schedules = [
+  {
+    agenda: "Meeting with suppliers from Kuta bali.",
+    time: "14:00 - 15:00",
+    address: "Sunset road, Kuta Bali",
+  },
+  {
+    agenda: "Check operation at Giga factory 1",
+    time: "18:00 - 20:00",
+    address: "central Jakarta",
+  },
+];
+
 const DashboardPage = () => {
+  const [dateRange, setRange] = useState({
+    start: "January",
+    end: "July",
+    year: "2022",
+  });
   return (
     <AppLayout>
-      <div className="bg-red-500 w-full pl-12 pt-4">
+      <div className="w-full pl-12 pt-4 pr-12">
         {/* Page Top bar */}
         <div className="flex flex-row">
           <div className="fonts-montserrat text-2xl font-bold">Dashboard</div>
           {/* Search Button */}
           <div className="ml-auto">
-            <label class="relative block">
+            <label className="relative block">
               <input
-                class="bg-white placeholder:font-italitc rounded-2xl pl-3 pr-10 focus:outline-none text-sm py-1.5"
+                className="bg-white placeholder:font-italitc rounded-2xl pl-3 pr-10 focus:outline-none text-sm py-1.5"
                 placeholder="Search..."
                 type="text"
               />
 
-              <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
                 <svg
-                  class="h-5 w-5 fill-black"
+                  className="h-5 w-5 fill-black"
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
                   y="0px"
@@ -77,7 +154,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Info Cards */}
-        <div className="grid grid-cols-4 gap-10 my-4">
+        <div className="grid grid-cols-4 gap-20 my-4">
           {infos.map((item, index) => (
             <StartCard
               key={index}
@@ -87,6 +164,82 @@ const DashboardPage = () => {
               icon={item.icon}
             />
           ))}
+        </div>
+
+        {/* Line Chart  */}
+        <div className="bg-white min-w-full rounded-2xl p-4 pl-6">
+          <div className="fonts-montserrat text-lg font-bold">Activities</div>
+          <div className="flex flex-row">
+            <div className="text-sm text-light-grey fonts-montserrat mb-1">
+              {dateRange.start} - {dateRange.end} {dateRange.year}{" "}
+              <ArrowDownIcon className="h-3 w-3 inline" />
+            </div>
+            <div className="ml-auto text-sm mr-4">
+              <div className="inline-block h-2.5 w-2.5 bg-light-pink rounded-full mx-2"></div>
+              Guest
+            </div>
+            <div className="text-sm mr-16">
+              <div className="inline-block h-2.5 w-2.5 bg-light-green rounded-full mx-2 "></div>
+              User
+            </div>
+          </div>
+          <LineChartCard data={data} />
+        </div>
+
+        {/* 2 data cards  */}
+        <div className="grid grid-cols-2 gap-50 mt-3">
+          {/* Card 1  */}
+          <div className="pb-8 bg-white rounded-2xl grid grid-cols-2">
+            <PieChartCard label="Top Products" data={productsData} />
+            <div>
+              <div className="px-6 text-right mt-8">
+                <div className="text-xs mr-auto text-light-grey fonts-montserrat mb-1">
+                  {dateRange.start} - {dateRange.end} {dateRange.year}{" "}
+                  <ArrowDownIcon className="h-3 w-3 inline" />
+                </div>
+              </div>
+              {/* Line Item  */}
+              {productsDetails.map((item, index) => (
+                <div className="my-2" key={index}>
+                  <div className="font-bold text-sm">
+                    <div
+                      className={`inline-block h-2.5 w-2.5 bg-${colors[index]} rounded-full mx-2`}
+                    ></div>
+                    {item.label}
+                  </div>
+                  <div className="pl-6 text-xs text-light-grey">
+                    {item.percentage}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 2  */}
+          <div className="bg-white rounded-2xl px-8 py-6">
+            {/* Heading  */}
+            <div className="flex flex-row mb-4">
+              <div className="fonts-montserrat font-bold text-lg">
+                Today's schedule
+              </div>
+              <div className="ml-auto text-xs text-light-grey fonts-montserrat mb-1 hover:cursor-pointer">
+                <span>
+                  See all <ArrowRightIcon className="h-3 w-3 inline" />
+                </span>
+              </div>
+            </div>
+            {/* Line Items  */}
+            {schedules.map((item, index) => {
+              const border = `border-${colors[index]}`;
+              return (
+                <div key={index} className={`border-l-4 ${border} pl-3 mb-3`}>
+                  <div className="text-sm font-bold">{item.agenda}</div>
+                  <div className="text-xs text-light-grey">{item.time}</div>
+                  <div className="text-xs text-light-grey">{item.address}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </AppLayout>

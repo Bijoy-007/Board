@@ -10,7 +10,7 @@ import SideBar from "../components/ui/SideBar";
 const AppLayout = (props) => {
   return (
     <div>
-      <div className="flex flex-row p-6 h-screen bg-neutral-150">
+      <div className="flex flex-row p-2 pl-4 h-screen bg-neutral-150">
         {/* Side Nav Bar */}
         <SideBar />
         <div className="w-full">{props.children}</div>

@@ -3,7 +3,7 @@ const StartCard = (props) => {
     backgroundColor: props.bgColor,
   };
   return (
-    <div style={cardStyle} className="p-6 rounded-3xl">
+    <div style={cardStyle} className="p-4 rounded-3xl">
       <div className="">{props.icon}</div>
       <div className="text-sm">{props.label}</div>
 
