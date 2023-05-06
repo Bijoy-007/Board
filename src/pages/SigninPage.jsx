@@ -24,23 +24,23 @@ const SignInPage = () => {
           <h1 className="fonts-montserrat font-bold text-4xl">Sign In</h1>
           <div className="mt-1 mb-4 text-base">Sign in to your account</div>
           {/* Sign In with google button  */}
-          <div className="bg-white h-7 w-76 rounded-xl inline px-4 py-2 mr-8">
-            <button>
+          <button>
+            <div className="bg-white h-7 w-76 rounded-xl inline px-4 py-2 mr-8">
               <img style={iconStyles} alt="Google Logo" src={GoogleIcon} />
               <span className="fonts-montserrat text-slate-400">
                 Sign in with Google
               </span>
-            </button>
-          </div>
+            </div>
+          </button>
           {/* Sign in with apple button  */}
-          <div className="bg-white h-7 w-76 rounded-xl inline px-4 py-2">
-            <button>
+          <button>
+            <div className="bg-white h-7 w-76 rounded-xl inline px-4 py-2">
               <img style={iconStyles} alt="Apple Logo" src={AppleIcon} />
               <span className="fonts-montserrat text-slate-400 p-1">
                 Sign in with Apple
               </span>
-            </button>
-          </div>
+            </div>
+          </button>
           {/* Sign in card */}
           <div className="w-112 mt-8 bg-white rounded-3xl py-3">
             {/* Email field */}
@@ -68,11 +68,13 @@ const SignInPage = () => {
                 Forgot password?
               </a>
               {/* Sign In button  */}
-              <div className="w-96 m-auto mt-2 mb-6">
-                <div className="bg-black rounded-xl px-2 py-2 text-white fonts-montserrat font-bold text-base text-center">
-                  <button>Sign in</button>
+              <button>
+                <div className="w-96 m-auto mt-2 mb-6">
+                  <div className="bg-black rounded-xl px-2 py-2 text-white fonts-montserrat font-bold text-base text-center">
+                    Sign in
+                  </div>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
 

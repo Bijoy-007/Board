@@ -9,6 +9,7 @@ module.exports = {
       },
       colors: {
         "white-100": "#F5F5F5",
+        "neutral-150": "#DDDDDD",
       },
       fontFamily: {
         montserrat: ["Shantell Sans", "cursive"],
@@ -21,6 +22,7 @@ module.exports = {
       borderRadius: {
         xl: "10px",
         "3xl": "20px",
+        "4xl": "30px",
       },
     },
   },
