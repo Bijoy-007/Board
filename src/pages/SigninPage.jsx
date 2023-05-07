@@ -1,6 +1,10 @@
-// import { ReactComponent as GoogleIcon } from "../Assets/icons/google.svg";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+
 import GoogleIcon from "../Assets/icons/google.svg";
 import AppleIcon from "../Assets/icons/apple.svg";
+import { useAuth } from "../components/auth/Auth";
+import { useEffect } from "react";
 
 const iconStyles = {
   width: "1.5rem",
@@ -11,6 +15,30 @@ const iconStyles = {
 };
 
 const SignInPage = () => {
+  const navigate = useNavigate();
+  const auth = useAuth();
+
+  // If the user is already logged then entering app by default
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/app/dashboard");
+    }
+  }, [auth.token, navigate]);
+
+  const handleGoogleAuth = useGoogleLogin({
+    onSuccess: (res) => {
+      // Saving the JWT for future use
+      localStorage.setItem("token", res.access_token);
+      // Updating Context
+      auth.login(res.access_token);
+      // Entering the app
+      navigate("/app/dashboard");
+    },
+    onFailure: () => {
+      alert("Something went wrong");
+    },
+  });
+
   return (
     <div className="flex flex-row h-screen">
       <div className="basis-4/10 bg-black flex">
@@ -24,7 +52,8 @@ const SignInPage = () => {
           <h1 className="fonts-montserrat font-bold text-4xl">Sign In</h1>
           <div className="mt-1 mb-4 text-base">Sign in to your account</div>
           {/* Sign In with google button  */}
-          <button>
+
+          <button onClick={handleGoogleAuth}>
             <div className="bg-white h-7 w-76 rounded-xl inline px-4 py-2 mr-8">
               <img style={iconStyles} alt="Google Logo" src={GoogleIcon} />
               <span className="fonts-montserrat text-slate-400">

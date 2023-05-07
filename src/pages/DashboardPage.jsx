@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BanknotesIcon,
   TagIcon,
@@ -14,6 +14,10 @@ import AppLayout from "../layouts/AppLayout";
 import Avatar from "../Assets/images/user.jpg";
 import LineChartCard from "../components/data/LineChartCard";
 import PieChartCard from "../components/data/PieChartCard";
+import getRandomNumbers from "../apis/getRandomNumbers";
+import getStatDetails from "../utils/getStatDetails";
+import getProductsDetails from "../utils/getProductsDetails";
+import getProductPercentages from "../utils/getProductPercentages";
 
 const infos = [
   {
@@ -42,60 +46,8 @@ const infos = [
   },
 ];
 
-const data = {
-  labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-  datasets: [
-    {
-      label: "Guest",
-      data: [10, 20, 42, 9],
-      borderColor: "#9BDD7C",
-      backgroundColor: "#9BDD7C",
-    },
-    {
-      label: "User",
-      data: [9, 40, 16, 11],
-      borderColor: "#E9A0A0",
-      backgroundColor: "#E9A0A0",
-    },
-  ],
-};
-
-const colors = ["fade-yellow", "fade-red", "fade-green"];
-
-const productsDetails = [
-  {
-    label: "Basic Tees",
-    percentage: "55%",
-  },
-  {
-    label: "Custom Short Pants",
-    percentage: "30%",
-  },
-  {
-    label: "Super Hoodies",
-    percentage: "15%",
-  },
-];
-
-const productsData = {
-  labels: ["Basic Tees", "Custom Short Pants", "Super Hoodies"],
-  datasets: [
-    {
-      data: [12, 7, 3],
-      backgroundColor: [
-        "rgba(152, 216, 158, 1)",
-        " rgba(238, 132, 132, 1)",
-        "rgba(246, 220, 125, 1)",
-      ],
-      borderColor: [
-        "rgba(152, 216, 158, 1)",
-        "rgba(238, 132, 132, 1)",
-        "rgba(246, 220, 125, 1)",
-      ],
-    },
-  ],
-};
-
+const colorCodes = ["#98d89e", "#ee8484", "#f6dc7d"];
+const colors = ["fade-green", "fade-yellow", "fade-red"];
 const schedules = [
   {
     agenda: "Meeting with suppliers from Kuta bali.",
@@ -110,11 +62,26 @@ const schedules = [
 ];
 
 const DashboardPage = () => {
-  const [dateRange, setRange] = useState({
+  const [dateRange] = useState({
     start: "January",
     end: "July",
     year: "2022",
   });
+
+  const [randomNumbers, setRandomNumbers] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+
+  // Loading initial data
+  useEffect(() => {
+    // Moving the fetchData() here as it will be not accessed or called later on
+    const fetchData = async () => {
+      const { ok, data } = await getRandomNumbers();
+      if (ok) {
+        setRandomNumbers(data);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <AppLayout>
       <div className="w-full pl-12 pt-4 pr-12">
@@ -172,7 +139,7 @@ const DashboardPage = () => {
           <div className="flex flex-row">
             <div className="text-sm text-light-grey fonts-montserrat mb-1">
               {dateRange.start} - {dateRange.end} {dateRange.year}{" "}
-              <ArrowDownIcon className="h-3 w-3 inline" />
+              <ArrowDownIcon className="h-3 w-3 inline cursor-pointer" />
             </div>
             <div className="ml-auto text-sm mr-4">
               <div className="inline-block h-2.5 w-2.5 bg-light-pink rounded-full mx-2"></div>
@@ -183,23 +150,26 @@ const DashboardPage = () => {
               User
             </div>
           </div>
-          <LineChartCard data={data} />
+          <LineChartCard data={getStatDetails(randomNumbers)} />
         </div>
 
         {/* 2 data cards  */}
         <div className="grid grid-cols-2 gap-50 mt-3">
           {/* Card 1  */}
           <div className="pb-8 bg-white rounded-2xl grid grid-cols-2">
-            <PieChartCard label="Top Products" data={productsData} />
+            <PieChartCard
+              label="Top Products"
+              data={getProductsDetails(randomNumbers)}
+            />
             <div>
               <div className="px-6 text-right mt-8">
                 <div className="text-xs mr-auto text-light-grey fonts-montserrat mb-1">
                   {dateRange.start} - {dateRange.end} {dateRange.year}{" "}
-                  <ArrowDownIcon className="h-3 w-3 inline" />
+                  <ArrowDownIcon className="h-3 w-3 inline cursor-pointer" />
                 </div>
               </div>
               {/* Line Item  */}
-              {productsDetails.map((item, index) => (
+              {getProductPercentages(randomNumbers).map((item, index) => (
                 <div className="my-2" key={index}>
                   <div className="font-bold text-sm">
                     <div
@@ -230,9 +200,16 @@ const DashboardPage = () => {
             </div>
             {/* Line Items  */}
             {schedules.map((item, index) => {
-              const border = `border-${colors[index]}`;
+              const style = {
+                borderColor: colorCodes[index],
+              };
+
               return (
-                <div key={index} className={`border-l-4 ${border} pl-3 mb-3`}>
+                <div
+                  style={style}
+                  key={index}
+                  className={`border-l-4 pl-3 mb-3`}
+                >
                   <div className="text-sm font-bold">{item.agenda}</div>
                   <div className="text-xs text-light-grey">{item.time}</div>
                   <div className="text-xs text-light-grey">{item.address}</div>

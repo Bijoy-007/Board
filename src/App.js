@@ -1,8 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import RootPage from "./pages/RootPage";
 import SignInPage from "./pages/SigninPage";
 import DashboardPage from "./pages/DashboardPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +17,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/app/dashboard",
-    element: <DashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <DashboardPage />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <RouterProvider router={router} />
+    </GoogleOAuthProvider>
+  );
 }
 
 export default App;
