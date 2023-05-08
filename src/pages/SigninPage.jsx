@@ -28,7 +28,6 @@ const SignInPage = () => {
   const handleGoogleAuth = useGoogleLogin({
     onSuccess: (res) => {
       // Saving the JWT for future use
-      alert(res.access_token);
       localStorage.setItem("token", res.access_token);
       // Updating Context
       auth.login(res.access_token);
