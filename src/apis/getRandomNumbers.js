@@ -1,13 +1,15 @@
+import filterData from "../utils/filterData";
 import getWithoutAuth from "../utils/getWithoutAuth";
 
 const getRandomNumbers = async () => {
   try {
-    const res = await getWithoutAuth("/random?min=1&max=50&count=8");
-
+    const res = await getWithoutAuth(
+      "/integers/?num=8&min=1&max=50&col=1&base=10&format=plain&rnd=new"
+    );
     if (res) {
       return {
         ok: true,
-        data: res.data,
+        data: filterData(res.data),
       };
     } else {
       return {

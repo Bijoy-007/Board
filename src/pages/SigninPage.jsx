@@ -18,9 +18,7 @@ const iconStyles = {
 const SignInPage = () => {
   const navigate = useNavigate();
   const auth = useAuth();
-  const { handleGoogle, loading, error } = useFetch(
-    "http://localhost:5000/login"
-  );
+  const { handleGoogle } = useFetch("http://localhost:5000/login");
 
   // If the user is already logged then entering app by default
   useEffect(() => {
