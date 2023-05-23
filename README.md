@@ -1,8 +1,8 @@
-# Board : Listed Assignemnt
+# Board : Demo dashboard
 
 ## Live link
 
-- https://listed-assingnment.netlify.app/
+- https://dashboard-demo-bijoy.netlify.app/
 
 ## Tech
 
