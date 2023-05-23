@@ -5,7 +5,6 @@ import GoogleIcon from "../Assets/icons/google.svg";
 import AppleIcon from "../Assets/icons/apple.svg";
 import { useAuth } from "../components/auth/Auth";
 import { useEffect } from "react";
-import useFetch from "../hooks/useFetch";
 
 const iconStyles = {
   width: "1.5rem",
@@ -18,7 +17,6 @@ const iconStyles = {
 const SignInPage = () => {
   const navigate = useNavigate();
   const auth = useAuth();
-  const { handleGoogle } = useFetch("http://localhost:5000/login");
 
   // If the user is already logged then entering app by default
   useEffect(() => {
@@ -28,15 +26,14 @@ const SignInPage = () => {
   }, [auth.token, navigate]);
 
   const handleGoogleAuth = useGoogleLogin({
-    onSuccess: (res) => handleGoogle(res),
-    // onSuccess: (res) => {
-    //   // Saving the JWT for future use
-    //   localStorage.setItem("token", res.access_token);
-    //   // Updating Context
-    //   auth.login(res.access_token);
-    //   // Entering the app
-    //   navigate("/app/dashboard");
-    // },
+    onSuccess: (res) => {
+      // Saving the JWT for future use
+      localStorage.setItem("token", res.access_token);
+      // Updating Context
+      auth.login(res.access_token);
+      // Entering the app
+      navigate("/app/dashboard");
+    },
     onFailure: () => {
       alert("Something went wrong");
     },
